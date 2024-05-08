@@ -1,0 +1,13 @@
+com\umariana\pqrs2\correo.class
+com\umariana\pqrs2\PQRS.class
+com\umariana\pqrs2\resources\JavaEE8Resource.class
+servlets\svLogin.class
+servlets\svRegistrar.class
+servlets\svConsultarPqrsUser.class
+servlets\svEditar.class
+servlets\svEliminar.class
+servlets\svAgregarAdmin.class
+servlets\svAgregarPqrs.class
+com\umariana\pqrs2\gestionarPQRS.class
+com\umariana\pqrs2\listarPqrs.class
+com\umariana\pqrs2\JAXRSConfiguration.class

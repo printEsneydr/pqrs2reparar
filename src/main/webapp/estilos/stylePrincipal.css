@@ -1,0 +1,68 @@
+/*estilo mejorado para la celda de la descripcion, le agrega "..." cuando se extiende el texto*/
+.custom-description-cell {
+    max-width: 200px; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/*estilo mejorado para la celda del nombrem, le agrega "..." cuando se extiende el texto*/
+.custom-name-cell {
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* cambios para hacer un espaciado entre nav bar inicial con tabla de listado y formulario agg tarea*/
+.formulario-agregar {
+    margin-top: 20px;
+   
+}
+/* cambios para margen y borde a la tabla del listado de tareas */
+.table-listado {
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    /* Agrega una sombra alrededor de la tabla */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    padding: 10px; /* Ajusta el espacio interno de la tabla */
+}
+/*color para el mensaje inferior del textarea de la descripcion*/
+.wordCountMessage {
+    color: #888; 
+}
+
+/* Estilo para el formulario */
+.my-form {
+    padding: 20px;
+    background-color: #F9F9F9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.my-form2 {
+    padding: 20px;
+    border: 1px;
+    border-radius: 1px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+    /*hace que el texto de la descripción se ajuste al siguiente renglón mostrando en la modal de buscar*/
+ #modalTaskDescription {
+            word-wrap: break-word;
+        }        
+        /* Estilo para centrar el textarea y hacerlo responsivo */
+.centered-textarea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Estilo para ajustar el ancho máximo del textarea */
+.responsive-textarea {
+    max-width: 100%;
+    width: 100%;
+}
+/* Estilo para centrar verticalmente el contenido de las celdas de la tabla */
+.table-listado tr td {
+    vertical-align: middle;
+}
+
