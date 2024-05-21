@@ -10,51 +10,46 @@ CREATE TABLE usuarios (
  cedula VARCHAR(70) UNIQUE NOT NULL, 
  correo VARCHAR(150) NOT NULL,
  contrasena VARCHAR(50) NOT NULL,
- rol ENUM('Admin', 'Usuario') NOT NULL
+ rol ENUM('Admin', 'Usuario') NOT NULL,
+ fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);        
  
+ SELECT DATE_FORMAT(fecha, '%Y-%m-%d %h:%i:%s %p') AS fecha_formato_12h FROM usuarios;
  INSERT INTO usuarios (nombre, apellido, telefono, cedula, correo, contrasena, rol)
 VALUES ('anyel', 'lopez', '32321', '1087', 'es@1', '11', 'Admin');     
       
       
 CREATE TABLE pqrs (
-  nombre VARCHAR (200) NOT NULL,
-  apellido VARCHAR (200) NOT NULL, 
-  telefono VARCHAR(50) NOT NULL,
-  cedula VARCHAR(50) NOT NULL PRIMARY KEY,
+  idPqrs INT (10) PRIMARY KEY,
   tipo VARCHAR(50),
   descripcion VARCHAR (50),
+  archivo VARCHAR (255),
   fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-INSERT INTO pqrs (nombre, apellido, telefono, cedula, tipo, descripcion) 
+  
+INSERT INTO pqrs (idPqrs, tipo, descripcion, archivo) 
 VALUES 
-	('anyel', 'lopez', '123', '12333', 'queja', 'muy mal');
+	(1, 'queja', 'muy mal', '.pdf');
 
+/* PROCEDIMIENTOS---------------*/
 DELIMITER //
-
 CREATE PROCEDURE agregar (
- IN tut_nombre VARCHAR(200),
-  IN tut_apellido VARCHAR(50), 
-  IN tut_telefono TEXT,
-  IN tut_cedula VARCHAR(50),
+  IN tut_idPqrs INT (10),
   IN tut_tipo VARCHAR(50),
-  IN tut_descripcion VARCHAR(50)
+  IN tut_descripcion VARCHAR(50),
+  IN tut_archivo VARCHAR (255)
 )
 BEGIN
-    INSERT INTO pqrs (nombre, apellido, telefono, cedula, tipo, descripcion, fecha)
-    VALUES (tut_nombre, tut_apellido, tut_telefono, tut_cedula, tut_tipo, tut_descripcion, CURRENT_TIMESTAMP);
+SELECT DATE_FORMAT(fecha, '%Y-%m-%d %h:%i:%s %p') AS fecha FROM pqrs;
+    INSERT INTO pqrs (idPqrs, tipo, descripcion, archivo, fecha)
+    VALUES (tut_idPqrs, tut_tipo, tut_descripcion, tut_archivo, CURRENT_TIMESTAMP);
     
-    SELECT * FROM pqrs WHERE nombre = tut_nombre AND apellido = tut_apellido AND telefono = tut_telefono 
-    AND cedula = tut_cedula AND tipo = tut_tipo AND descripcion = tut_descripcion;
 END //
 
 DELIMITER ;
 
-
 DELIMITER //
-
 CREATE PROCEDURE agregarUsuarios (
     IN tut_Nombre VARCHAR(70),
     IN tut_Apellido VARCHAR(70),
@@ -65,8 +60,8 @@ CREATE PROCEDURE agregarUsuarios (
     IN tut_Rol ENUM('Admin', 'Usuario')
 )
 BEGIN
-    INSERT INTO usuarios (nombre, apellido, telefono, cedula, correo, contrasena, rol)
-    VALUES (tut_Nombre, tut_Apellido, tut_telefono, tut_Cedula, tut_Correo, tut_Contrasena, tut_Rol);
+    INSERT INTO usuarios (nombre, apellido, telefono, cedula, correo, contrasena, rol, fecha)
+    VALUES (tut_Nombre, tut_Apellido, tut_telefono, tut_Cedula, tut_Correo, tut_Contrasena, tut_Rol, CURRENT_TIMESTAMP);
 END //
 
 DELIMITER ;

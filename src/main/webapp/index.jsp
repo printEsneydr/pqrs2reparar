@@ -3,6 +3,15 @@
 <%@include file="templates/header.jsp"%>
 
 <link rel="stylesheet" type="text/css" href="estilos/style.css">
+<!-- Dentro del bloque HTML de index.jsp -->
+<% if (request.getSession().getAttribute("inicioSesionFallido") != null) { %>
+<div class="alert alert-danger" role="alert" id="error-alert">
+    ¡Ups! La cuenta no existe o los datos son incorrectos. Por favor, verifica la información.
+</div>
+<% request.getSession().removeAttribute("inicioSesionFallido"); %>
+<% } %>
+
+
 
 <!-- alerta o notificacion para indicar que el usuario ha sido registrado exitosamente -->
 <% if (request.getSession().getAttribute("registroExitoso") != null && (boolean) request.getSession().getAttribute("registroExitoso") == true) { %>
@@ -27,6 +36,34 @@
 </div>
 <% request.removeAttribute("inicioSesionFallido"); %>  
 <% }%>
+
+
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlerta" style="display: none;">
+  <strong>Esta cédula de usuario ya existe, ingresa una diferente.</strong> 
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%
+    Boolean userActionError = (Boolean) session.getAttribute("userActionError");
+    // Verificar si el error proviene de una accin del usuario
+    if (userActionError != null && userActionError) {
+%>
+<script>
+    // Mostrar la alerta de error en la ventana modal
+    var errorAlerta = document.getElementById('errorAlerta');
+    errorAlerta.style.display = 'block';
+</script>
+<%
+    // Limpiar la bandera despus de mostrar la alerta
+    session.removeAttribute("userActionError");
+}
+%>
+<script>
+        // Ocultar la alerta despus de 4 segundos 
+        setTimeout(function () {
+            $('#errorAlerta').alert('close');
+        }, 5000);
+</script>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <!-- Formulario para Registrarse si eres nuevo -->
@@ -52,10 +89,7 @@
                         <i class="far fa-eye-slash" id="eyeIcon"></i>
                     </button>
                 </div>
-            </div>
-                
-           
-
+            </div>                           
                 <button type="submit">Registrar</button>
             </div>
         </form>

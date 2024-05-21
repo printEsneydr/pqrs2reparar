@@ -27,6 +27,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">            
 <script src="scripts/script.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <!-- agregando las fuentes desde google fonts-->   
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Alice&family=Architects+Daughter&family=Bungee&family=Chakra+Petch:wght@300&family=Kaushan+Script&family=Khand:wght@500&family=Oswald:wght@200;400;700&family=Permanent+Marker&family=Sedgwick+Ave+Display&family=Ultra&display=swap');

@@ -2,52 +2,40 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #f5f5f5;">
-    <div style="font-family: 'Archivo Black';" class="container-fluid">
-        <label class="navbar-brand" style="color: #black; background-color: E2E2E2; font-family: times new roman; font-size: 24px">Preguntas, Quejas, Reclamos y Sugerencias</label>
-        <div class="navbar bg-body-tertiary" id="navbarSupportedContent">           
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- opcion de salir o cerrar sesion -->
-            <div style="background-color: #f5f5f5; border-color: #f5f5f5 " class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <a class="nav-link active btn warning custom-button" style="font-family: times new roman; font-size: 20px; color: black" aria-current="page" href="inicio.jsp">Inicio </a>
-                <a class="nav-link active " style="font-family: times new roman; font-size: 20px; color: black; margin-right: 20px ; color: black" aria-current="page" href="formulario.jsp">Agregar una PQRS</a>
-                <a class="nav-link active " style="font-family: times new roman; font-size: 20px; color: black; margin-right: 20px;" aria-current="page" href="PQRSUser.jsp">Mis PQRS's</a>
-
-                 <%            
-                     HttpSession sessi = request.getSession();
-          
-                     String tipo = (String) sessi.getAttribute("tipoPersona");
-                     System.out.println(tipo);
-                     if (!tipo.equals("usuario"))
-                     {
-                     
-                
-            %>
-                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black; margin-right: 20px;" aria-current="page" href="mostrarPQRS.jsp">Mostrar PQRS's</a>
-                               <a class="nav-link active " style="font-family: times new roman; font-size: 20px; color: black; margin-right: 20px;" aria-current="page" href="admin.jsp">Agregar un Administrador</a>
-                               <a class="nav-link active " style="font-family: times new roman; font-size: 20px; color: black; margin-right: 20px;" aria-current="page" href="PQRSUser.jsp">Mis PQRS's</a>
-
-                <%
-                    }
-                    %>
-                    
- <div class="nav-item dropdown text-center">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <%
-            String usuario = (String) session.getAttribute("nombre");
-            out.print(usuario);
-        %>
-    </a> 
-    <ul class="dropdown-menu" style="list-style: none;">
-        <li><a class="dropdown-item" href="index.jsp">Salir</a></li>
-    </ul>
-</div>                 
-            </div>      
+    <div class="container-fluid" style="font-family: 'Archivo Black';">
+        <a class="navbar-brand" href="#" style="color: black; font-family: times new roman; font-size: 24px;">
+            <strong>Preguntas, Quejas, Reclamos y Sugerencias</strong> 
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link active btn warning custom-button" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="inicio.jsp">Inicio</a>
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="formulario.jsp">Agregar una PQRS</a>
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="misPqrs.jsp">Mis PQRS's</a>
+                <% 
+                    HttpSession sessi = request.getSession();
+                   String tipo = (String) sessi.getAttribute("tipoPersona");
+                   if (!tipo.equals("usuario")) { 
+                %>
+                    <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="mostrarPQRS.jsp">Mostrar PQRS's</a>
+                    <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="mostrarUser.jsp">Mostrar Users</a>
+                <% } %>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% String usuario = (String) session.getAttribute("nombre");
+                           out.print(usuario); %>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="index.jsp">Salir</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
     </div>
 </nav>
+
 
 <!-- Agregar banner para interfaz principal -->
 <nav class="navbar navbar-light bg-light">

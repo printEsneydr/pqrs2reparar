@@ -29,7 +29,16 @@ public class svRegistrar extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
         String telefono = request.getParameter("telefono");
-        String cedula = request.getParameter("cedula");       
+        String cedula = request.getParameter("cedula");  
+        //alerta para saber si la cedula ya existe
+        if (gestionar.existeUser(cedula)) {
+                    request.setAttribute("error", true);
+                    // Redireccionar al formulario de agregar tutorial
+                    request.getSession().setAttribute("userActionError", true);
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    return;
+                }
+        
         String correo = request.getParameter("correo");
         String contrasena = request.getParameter("contrasena");
         String rol = "Usuario";

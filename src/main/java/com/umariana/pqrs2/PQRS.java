@@ -15,58 +15,36 @@ import java.time.format.DateTimeFormatter;
  */
 public class PQRS {
     
-   private String nombre;
-    private String apellido;
-    private String telefono;
-    private String cedula;
+    
+   // private String idUsuario;
+    private String idPqrs;
     private String tipo;
     private String descripcion;    
+    private String archivo;
     private LocalDateTime fecha;
-    private String nombreArchivoPDF;
+    private String correo;
+        private int idUsuario; 
 
 
-    public PQRS(String nombre, String apellido, String telefono, String cedula, String tipo, String descripcion, LocalDateTime fecha) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.cedula = cedula;
+         public PQRS(String idPqrs, String tipo, String descripcion, String archivo, LocalDateTime fecha, String correo, int idUsuario) {
+        this.idPqrs = idPqrs;
         this.tipo = tipo;
         this.descripcion = descripcion;
+        this.archivo = archivo;
         this.fecha = fecha;
+        this.correo = correo;
+                this.idUsuario = idUsuario; 
+
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getIdPqrs() {
+        return idPqrs;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setIdPqrs(String idPqrs) {
+        this.idPqrs = idPqrs;
     }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
+    
     public String getTipo() {
         return tipo;
     }
@@ -83,23 +61,41 @@ public class PQRS {
         this.descripcion = descripcion;
     }
 
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
+    }
+
     public LocalDateTime getFecha() {
         return fecha;
     }
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    } 
+    }
+
+public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario; // Getter para idUsuario
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario; // Setter para idUsuario
+    }
+    
     // Método para obtener la fecha formateada como texto
 public String getFormattedFecha() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD-MM-YYYY HH:MM:SS a");
     return fecha.format(formatter);
-}
-public String getNombreArchivoPDF() {
-    return nombreArchivoPDF;
-}
-
-public void setNombreArchivoPDF(String nombreArchivoPDF) {
-    this.nombreArchivoPDF = nombreArchivoPDF;
 }
 }

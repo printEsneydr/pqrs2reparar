@@ -29,39 +29,34 @@ public class svLogin extends HttpServlet {
         response.sendRedirect("index.jsp");
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
-    {
-        String correo = request.getParameter("correo");
-        String contrasena = request.getParameter("contrasena");
+ @Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String correo = request.getParameter("correo");
+    String contrasena = request.getParameter("contrasena");
 
-        String [] credenciales = gestionar.login(correo, contrasena);
-         HttpSession session = request.getSession();
+    String[] credenciales = gestionar.login(correo, contrasena);
+    HttpSession session = request.getSession();
 
-        if (credenciales != null) 
-        {            
-            session.setAttribute("idUsuario", credenciales [0] );
-            session.setAttribute("rol", credenciales [1] );
-            session.setAttribute("nombre", credenciales [2] );
+    if (credenciales != null) {            
+        session.setAttribute("idUsuario", credenciales[0]);
+        session.setAttribute("rol", credenciales[1]);
+        session.setAttribute("nombre", credenciales[2]);
 
         // Redirigir al usuario según su rol
-    if (credenciales[1].equals("Admin")) {
-        String tipo = "admin";
-        session.setAttribute("tipoPersona", tipo);
-        response.sendRedirect("inicio.jsp");
+        if (credenciales[1].equals("Admin")) {
+            String tipo = "admin";
+            session.setAttribute("tipoPersona", tipo);
+            response.sendRedirect("inicio.jsp");
+        } else {
+            String tipo = "usuario";
+            session.setAttribute("tipoPersona", tipo);
+            response.sendRedirect("inicio.jsp");
+        }
     } else {
-        String tipo = "usuario";
-        session.setAttribute("tipoPersona", tipo);
-        
-        response.sendRedirect("inicio.jsp");
-    }
-} else {
-    response.sendRedirect("index.jsp?errorP=true");
-}
-    }
-    @Override
-    public String getServletInfo() {
-        return "servidor";
+        // Las credenciales no son válidas, establecer un atributo en la sesión
+        request.getSession().setAttribute("inicioSesionFallido", true);
+        response.sendRedirect("index.jsp");
     }
 }
+}
+

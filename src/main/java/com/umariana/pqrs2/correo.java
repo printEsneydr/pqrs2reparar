@@ -11,8 +11,8 @@ import javax.mail.internet.MimeMessage;
 
 public class correo {
 
-    private static String emailFrom = "";
-    private static String passwordFrom = "";
+    private static String emailFrom;
+    private static String passwordFrom;
     private String emailTo;
     private String subject;
     private String content;
@@ -47,7 +47,6 @@ public class correo {
 
     public void sendEmail() throws MessagingException {
         createEmail();
-
         Transport mTransport = mSession.getTransport("smtp");
         mTransport.connect(emailFrom, passwordFrom);
         mTransport.sendMessage(mCorreo, mCorreo.getRecipients(Message.RecipientType.TO));
@@ -55,7 +54,6 @@ public class correo {
     }
 
     private void createEmail() throws MessagingException {
-        // Configurar propiedades del servidor SMTP
         mProperties.put("mail.smtp.host", "smtp.gmail.com");
         mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         mProperties.setProperty("mail.smtp.starttls.enable", "true");
@@ -64,10 +62,7 @@ public class correo {
         mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         mProperties.setProperty("mail.smtp.auth", "true");
 
-        // Obtener la sesión
         mSession = Session.getDefaultInstance(mProperties);
-
-        // Crear el mensaje de correo
         mCorreo = new MimeMessage(mSession);
         mCorreo.setFrom(new InternetAddress(emailFrom));
         mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));

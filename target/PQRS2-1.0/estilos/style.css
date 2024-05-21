@@ -267,18 +267,3 @@ footer a {
     top: -48px; 
     right: 20px; 
 }
-
-    /* Estilo para los inputs y select */
-    .form-container input,
-    .form-container select {
-        width: calc(100% - 20px); /* Ancho de los elementos */
-        margin-bottom: 10px; /* Espacio entre elementos */
-        padding: 8px; /* Relleno interno */
-    }
-
-    /* Estilo específico para el botón */
-    .form-container button {
-        width: calc(100% - 20px); /* Ancho del botón */
-        margin-bottom: 20px; /* Espacio entre el select y el botón */
-        padding: 8px; /* Relleno interno */
-    }

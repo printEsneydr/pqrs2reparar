@@ -1,54 +1,43 @@
-
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="com.umariana.pqrs2.listarUser"%>
+<%@page import="com.umariana.pqrs2.User"%>
 <%@page import="com.umariana.pqrs2.listarPqrs"%>
 <%@page import="com.umariana.pqrs2.PQRS"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <!-- include para incluir un archivo dentro de otro, en este caso el header.  -->
 <%@include file="templates/header.jsp"%>
-<%
-    String rol = (String) session.getAttribute("rol");
 
-    // Verificar si el usuario es un administrador
-    if (rol != null && rol.equals("Admin")) {
-%>
 <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #f5f5f5;">
-    <div style="font-family: 'Archivo Black';" class="container-fluid">
-        <label class="navbar-brand" style="color: #black; background-color: E2E2E2; font-family: times new roman; font-size: 24px">Preguntas, Quejas, Reclamos y Sugerencias</label>
-        <div class="navbar bg-body-tertiary" id="navbarSupportedContent">           
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- opcion de salir o cerrar sesion -->
-            <div style="background-color: #f5f5f5; border-color: #f5f5f5 " class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; margin-right: 35px; color: black" aria-current="page" href="inicio.jsp">Inicio </a>
-                <a class="nav-link active " style="font-family: times new roman; font-size: 20px; margin-right: 35px; color: black" aria-current="page" href="formulario.jsp">Agregar una PQRS</a>
-                <a class="nav-link active btn warning custom-button" style="font-family: times new roman; font-size: 20px; margin-right: 35px; color: black" aria-current="page" href="mostrarPQRS.jsp">Mostrar PQRS's</a>
-                 <%            
-                     HttpSession sessi = request.getSession();
-          
-                     String tipo = (String) sessi.getAttribute("tipoPersona");
-                     System.out.println(tipo);
-                     if (!tipo.equals("usuario"))
-                     {
-                     
-                
-            %>
-                <a class="nav-link active " style="font-family: times new roman; font-size: 20px; color: black; margin-right: 35px;" aria-current="page" href="admin.jsp">Agregar un Administrador</a>
- <%
-                    }
-                    %>
-               <div class="nav-item dropdown text-center">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <%
-            String usuario = (String) session.getAttribute("nombre");
-            out.print(usuario);
-        %>
-    </a> 
-    <ul class="dropdown-menu" style="list-style: none;">
-        <li><a class="dropdown-item" href="index.jsp">Salir</a></li>
-    </ul>
-</div>
-                
+    <div class="container-fluid" style="font-family: 'Archivo Black';">
+        <a class="navbar-brand" href="#" style="color: black; font-family: times new roman; font-size: 24px;">
+            <strong>Preguntas, Quejas, Reclamos y Sugerencias</strong> 
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="inicio.jsp">Inicio</a>
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="formulario.jsp">Agregar una PQRS</a>
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="misPqrs.jsp">Mis PQRS's</a>
+                <%
+                    HttpSession sessi = request.getSession();
+                    String tipo = (String) sessi.getAttribute("tipoPersona");
+                    if (!tipo.equals("usuario")) {
+                %>
+                <a class="nav-link active btn warning custom-button" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="mostrarPQRS.jsp">Mostrar PQRS's</a>
+                <a class="nav-link active" style="font-family: times new roman; font-size: 20px; color: black;" aria-current="page" href="mostrarUser.jsp">Mostrar Users</a>
+                <% } %>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% String usuario = (String) session.getAttribute("nombre");
+                            out.print(usuario); %>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="index.jsp">Salir</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -64,7 +53,7 @@
     /* Style the table container */
     .table-container {
         margin: 50px auto;
-        max-width: 900px;
+        max-width: 1200px;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -76,15 +65,17 @@
         color: #333;
         font-weight: bold;
         text-align: center;
-        padding: 10px;
+        padding: 20px; /* Ajusta el espacio en los títulos */
         border: 1px solid #ddd;
+        vertical-align: middle;
     }
 
     /* Style the table body */
     .table tbody td {
         text-align: center;
-        padding: 8px;
+        padding: 10px; /* Ajusta el espacio en el contenido */
         border: 1px solid #ddd;
+        vertical-align: middle;
     }
 
     /* Style the table actions buttons */
@@ -119,11 +110,9 @@
 <div class="container-fluid table-container">
     <table class="table table-striped table-hover">
         <thead>
-            <tr>
+            <tr>    
                 <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Teléfono</th>
-                <th>Cédula</th>
+                <th>ID</th>
                 <th>Tipo</th>
                 <th>Descripción</th>
                 <th>Archivo PDF</th>
@@ -131,66 +120,153 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-
         <tbody>
-            <%
+             <%
+                // Obtener la lista de usuarios llamando al método estático listarUser()
+                List<User> listaUser = listarUser.listarUser();
                 // Obtener la lista de PQRS llamando al método estático listarPqrs()
                 List<PQRS> listaPqrs = listarPqrs.listarPqrs();
+                
+                // Verificar si las listas no están vacías
+                if (listaUser != null && !listaUser.isEmpty() && listaPqrs != null && !listaPqrs.isEmpty()) {
+                    // Iterar sobre la lista de usuarios
+                    for (User miUser : listaUser) {
+                        // Filtrar las PQRS que pertenecen al usuario actual
+                        List<PQRS> pqrsDelUsuario = listaPqrs.stream()
+                                                             .filter(pqrs -> pqrs.getIdUsuario() == miUser.getIdUsuario())
+                                                             .collect(Collectors.toList());
 
-                // Verificar si la lista no está vacía
-                if (listaPqrs != null && !listaPqrs.isEmpty()) {
-                    // Iterar sobre la lista de PQRS para mostrar cada una en la tabla
-                    for (PQRS miPqrs : listaPqrs) {
+                        // Iterar sobre la lista de PQRS filtradas para mostrar cada una en la tabla
+                        for (PQRS miPqrs : pqrsDelUsuario) {
             %>
-            <tr>
-                <td><%= miPqrs.getNombre()%></td>
-                <td><%= miPqrs.getApellido()%></td>
-                <td><%= miPqrs.getTelefono()%></td>
-                <td><%= miPqrs.getCedula()%></td>
+            <tr> 
+                <td><%= miUser.getNombre() %></td>
+                <td><%= miPqrs.getIdPqrs()%></td>                
                 <td><%= miPqrs.getTipo()%></td>
                 <td><%= miPqrs.getDescripcion()%></td>                    
-                <td>hola.PDF</td>
+                <td><%= miPqrs.getArchivo()%></td>
                 <td><%= miPqrs.getFecha()%></td>
-
                 <td>                   
-   
-
-<button class="btn btn-warning btn-sm" onclick="editarPQRS(
-    '<%= miPqrs.getNombre()%>',
-    '<%= miPqrs.getApellido()%>',
-    '<%= miPqrs.getTelefono()%>',
-    '<%= miPqrs.getCedula()%>',
-    '<%= miPqrs.getTipo()%>',
-    '<%= miPqrs.getDescripcion()%>'
-)">
-    <i class="fa fa-pencil-alt text-white"></i>
-</button>
-
-                    <form action="svEliminar" method="post" style="display: inline;">
-                        <input type="hidden" name="cedula" value="<%= miPqrs.getCedula()%>">
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar esta pqrs?');">
+                    <!--<button class="btn btn-warning btn-sm" onclick="editarPQRS(
+                                    '<%= miPqrs.getIdPqrs()%>',
+                                    '<%= miPqrs.getTipo()%>',
+                                    '<%= miPqrs.getDescripcion()%>',
+                                    '<%= miPqrs.getArchivo()%>'
+                                    )">
+                        <i class="fa fa-pencil-alt text-white"></i>
+                    </button>                      
+                    <form style="display: inline;">
+                        <input type="hidden" name="idPqrs" value="<%= miPqrs.getIdPqrs()%>">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="openModal('<%= miPqrs.getIdPqrs()%>')">
                             <i class="fa fa-trash text-white"></i>
                         </button>
+                    </form>-->
+
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sendEmailModal" data-email="<%= miPqrs.getCorreo()%>">
+                        Enviar Correo
+                    </button>
+
+                    <form method="post" action="svActualizarEstadoPqrs" style="display: inline;">
+                        <input type="hidden" name="idPqrs" value="<%= miPqrs.getIdPqrs()%>">
+                        <input type="hidden" name="nuevoEstado" value="Revisada">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Marcar Revisada
+                        </button>
                     </form>
+
                 </td>
-            </tr>
-            <% } %>
+ </tr>
+            <%     } // Fin del bucle sobre las PQRS del usuario %>
+            <%   } // Fin del bucle sobre los usuarios %>
             <% } else { %>
             <tr>
-                <td colspan="8" class="text-center">No se encontraron PQRS.</td>
+                <td colspan="7" class="text-center">No se encontraron PQRS.</td>
             </tr>
-            <% }%>
-        </tbody>
+            <% } %>        </tbody>
     </table>
 </div>
-
-<%
-    } else {
-        response.sendRedirect("index.jsp"); // Redirigir a la página de inicio si el usuario no es un administrador
+<script>
+    function actualizarEstadoPqrs(idPqrs, nuevoEstado) {
+        $.post("svActualizarEstadoPqrs", {idPqrs: idPqrs, nuevoEstado: nuevoEstado}, function (response) {
+            location.reload();
+        });
     }
-%>
+
+</script>
+<!-- Modal para enviar correo -->
+<div class="modal fade" id="sendEmailModal" tabindex="-1" role="dialog" aria-labelledby="sendEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="svSendEmail" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendEmailModalLabel">Enviar Correo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="emailTo">Correo del Usuario</label>
+                        <input type="email" class="form-control" id="emailTo" name="emailTo" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Mensaje</label>
+                        <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Correo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+            $('#sendEmailModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var email = button.data('email');
+                var modal = $(this);
+                modal.find('.modal-body #emailTo').val(email);
+            });
+</script>
+
+<div class="modal fade" id="confirmacionEliminarModal" tabindex="-1" aria-labelledby="confirmacionEliminarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmacionEliminarModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Deseas eliminar esta pqrs?
+            </div>
+            <div class="modal-footer">
+                <form id="eliminarSolicitudForm" action="svEliminar" method="post">
+                    <input type="hidden" id="idPqrsEliminar" name="idPqrs">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(idPqrs) {
+        document.getElementById("idPqrsEliminar").value = idPqrs;
+        var modal = new bootstrap.Modal(document.getElementById('confirmacionEliminarModal'));
+        modal.show();
+    }
+</script>
+
 <!-- Modal de edición de PQRS -->
-<div class="modal fade" id="editarPQRSModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarPQRSModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -198,70 +274,51 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="svEditar" method="POST" id="formEditarPQRS">
+                <form action="svEditar" method="POST" id="formEditarPQRS" enctype="multipart/form-data">
                     <!-- Campo oculto para almacenar el ID de la PQRS -->
-                    <input type="hidden" name="cedulaEdit" id="cedulaEdit">
-                    
-                    <!-- Campo de edición para el nombre -->
-<div class="row mb-3">                
-    <label for="nombreEdit"  class="col-sm-3 col-form-label">Nombre</label>
+                    <input type="hidden" name="idPqrsEdit" id="idPqrsEdit">
+
+                   <!-- <div class="row mb-3">
+                        <label for="idPqrsEdit" class="col-sm-3 col-form-label">ID</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="nombreEdit" name="nombre" placeholder="Nombre" required>
-</div>
-            </div>             
-                    
-                    <!-- Campo de edición para el apellido -->
+                            <span id="cedulaEditSpan"></span> 
+                            <small class="text-muted" style="color: red;">EL identificador no puede ser cambiado</small> 
+                        </div>
+                    </div>-->
+
                     <div class="row mb-3">
-                        <label for="apellidoEdit" class="col-sm-3 col-form-label"">Apellido</label>
+                        <label for="tipoEdit" class="col-sm-3 col-form-label">Tipo de PQRS</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" id="apellidoEdit" name="apellido" placeholder="Apellido" required>
+                            <select class="form-select" id="tipoEdit" name="tipo" aria-label="Default select example" required>
+                                <option value="Pregunta">Pregunta</option>
+                                <option value="Queja">Queja</option>
+                                <option value="Reclamo">Reclamo</option>
+                                <option value="Sugerencia">Sugerencia</option>
+                            </select>
+                        </div>
                     </div>
-                    </div>
-                    
-                    <!-- Campo de edición para el teléfono -->
-                    <div class="row mb-3">
-                        <label for="telefonoEdit" class="col-sm-3 col-form-label">Teléfono</label>
-                        <div class="col-sm-9">
-                        <input type="text" class="form-control" id="telefonoEdit" name="telefono" placeholder="Teléfono" required>
-                    </div>
-                    </div>
-                    
-                    <!-- Campo de edición para la cédula -->
-                    <div class="row mb-3">
-                        <label for="cedulaEdit" class="col-sm-3 col-form-label">Cédula</label>
-                        <div class="col-sm-9">
-                        <input type="text" class="form-control" id="cedulaEdit" name="cedula" placeholder="Cédula" required>
-                    </div>
-                    </div>
-                    
-            <div class="row mb-3">
-              <label for="tipoEdit" class="col-sm-3 col-form-label">Tipo de PQRS</label>
-              <div class="col-sm-9">
-                <select class="form-select" id="tipoEdit" name="tipo" aria-label="Default select example" required>
-                  <option value="Pregunta">Pregunta</option>
-                  <option value="Queja">Queja</option>
-                  <option value="Reclamo">Reclamo</option>
-                  <option value="Sugerencia">Sugerencia</option>
-                </select>
-              </div>
-            </div>
-                
-                    
-                    
-                    <!-- Campo de edición para la descripción -->
+
                     <div class="row mb-3">
                         <label for="descripcionEdit" class="col-sm-3 col-form-label">Descripción</label>
                         <div class="col-sm-9">
                             <textarea class="form-control" id="descripcionEdit" name="descripcion" rows="5" placeholder="Actualiza la situación" required></textarea>
                             <div class="wordCountMessage" id="wordCount">Tiene un máximo de 50 palabras</div>
-
-              </div>
+                        </div>
                     </div>
-                                                           
+                    
+                    <div class="row mb-3">
+                        <label for="archivoEdit" class="col-sm-3 col-form-label">Archivo PDF</label>
+                        <div class="col-sm-9">
+                            <input  class="form-control" type="file" name="archivo" id="archivoEdit" accept=".pdf" required>
+                            <div style="color: red" id="archivoSeleccionado"></div><br>
+                        </div>                                                    
 
-                    <!-- Botón para enviar el formulario de edición -->
+                    </div>
+                    
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger btn-success mx-2" data-bs-dismiss="modal">Cancelar</button>
+
                     </div>
                 </form>
             </div>
@@ -270,36 +327,32 @@
 </div>
 
 <script>
-  function editarPQRS(nombre, apellido, telefono, cedula, tipo, descripcion) {
-  // Set values for other fields
-  document.getElementById('nombreEdit').value = nombre;
-  document.getElementById('apellidoEdit').value = apellido;
-  document.getElementById('telefonoEdit').value = telefono;
-  document.getElementById('cedulaEdit').value = cedula;
-  document.getElementById('descripcionEdit').value = descripcion;
+    function editarPQRS(idPqrs, tipo, descripcion, archivo) {
+        // Set values for other fields
+        document.getElementById('idPqrsEdit').value = idPqrs;
+        document.getElementById('descripcionEdit').value = descripcion;
 
-  // Set the selected option for 'tipo'
-  const tipoSelect = document.getElementById('tipoEdit');
-  for (let i = 0; i < tipoSelect.options.length; i++) {
-    if (tipoSelect.options[i].value === tipo) {
-      tipoSelect.selectedIndex = i;
-      break;
+        document.getElementById('archivoSeleccionado').textContent = archivo;
+
+// Set the selected option for 'tipo'
+        const tipoSelect = document.getElementById('tipoEdit');
+        for (let i = 0; i < tipoSelect.options.length; i++) {
+            if (tipoSelect.options[i].value === tipo) {
+                tipoSelect.selectedIndex = i;
+                break;
+            }
+        }
+
+        // Show the modal
+        var editarPQRSModal = new bootstrap.Modal(document.getElementById('editarPQRSModal'));
+        editarPQRSModal.show();
     }
-  }
-
-  // Show the modal
-  const modal = new bootstrap.Modal(document.getElementById('editarPQRSModal'));
-  modal.show();
-}
-
 </script>
-
-
 <!-- Script para manejar la apertura del modal y enviar el ID del tutorial -->
 <script>
-    function editar(cedula) {
-        // Establecer el valor del ID del tutorial en el campo oculto del formulario de edición
-        document.getElementById("idPQRSEdit").value = cedula;
+    function editar(idPqrs) {
+        // Establecer el valor del ID del pqrs en el campo oculto del formulario de edición
+        document.getElementById("idPqrsEdit").value = idPqrs;
         // Mostrar el modal de edición
         var editarPQRSModal = new bootstrap.Modal(document.getElementById('editarPQRSModal'), {
             keyboard: false
@@ -307,15 +360,14 @@
         editarPQRSModal.show();
     }
 </script>
-
 <!-- este script no permite que la tecla enter funcione dentro del textarea para evitar error en agregar tarea-->
 <script>
-                    document.getElementById('descripcionEdit').addEventListener('keydown', function (e) {
-                        if (e.key === 'Enter') {
-                            // Evitar el salto de línea
-                            e.preventDefault();
-                        }
-                    });
+    document.getElementById('descripcionEdit').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            // Evitar el salto de línea
+            e.preventDefault();
+        }
+    });
 </script>
 <!-- este script maneja el exceso de palabras para el textarea de la descripcion-->
 <script>
@@ -334,14 +386,32 @@
         if (wordCountValue > maxWords) {
             descripcionEditField.value = words.slice(0, maxWords).join(" ");
             wordCount.textContent = maxWords + " palabras de " + maxWords + " (máximo)";
-            wordCount.style.color = "#888"; 
-            wordCount.classList.add("wordCountMessage"); 
+            wordCount.style.color = "#888";
+            wordCount.classList.add("wordCountMessage");
         } else {
-            wordCount.style.color = "#888"; 
+            wordCount.style.color = "#888";
             wordCount.classList.remove("wordCountMessage");
         }
     });
 </script>
 
+<footer class="text-black py-4" style="background-color: #f5f5f5;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Contacto</h5>
+                <p>Universidad Mariana</p>
+                <p>Barrio Maridiaz, Pasto</p>
+                <p>Teléfono: 323215796</p>
+            </div>
+            <div class="col-md-6">
+                <h5>Información</h5>
+                <p>Somos una institución educativa comprometida con la excelencia académica y la formación integral de nuestros estudiantes.</p>
+                <p>Ubicados en la ciudad de Pasto, capital del departamento de Nariño en Colombia, en el barrio Maridiaz.</p>     
+            </div>
+        </div>
+        <p>&copy; 2024 Universidad Mariana</p>
+    </div>
+</footer>
 <!-- include para incluir un archivo dentro de otro, en este caso el footer qque tomara los scripts realizados en esa clase.  -->
 <%@include file= "templates/footer.jsp"%>

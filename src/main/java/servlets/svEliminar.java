@@ -35,14 +35,14 @@ public class svEliminar extends HttpServlet {
         if (conn != null) {
             try {
                 // Obtener el ID del tutorial a eliminar desde los parámetros de la solicitud
-                int cedula = Integer.parseInt(request.getParameter("cedula"));
+                int idPqrs = Integer.parseInt(request.getParameter("idPqrs"));
 
                 // Sentencia SQL para eliminar el tutorial
-                String sql = "DELETE FROM pqrs WHERE cedula = ?";
+                String sql = "DELETE FROM pqrs WHERE idPqrs = ?";
 
                 // Preparar la declaración SQL
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, cedula);
+                pstmt.setInt(1, idPqrs);
 
                 // Ejecutar la consulta
                 pstmt.executeUpdate();
@@ -51,7 +51,7 @@ public class svEliminar extends HttpServlet {
                 conn.close();
 
                 // Redireccionar al usuario de vuelta a la página index.jsp
-                response.sendRedirect("mostrarPQRS.jsp");
+                response.sendRedirect("misPqrs.jsp");
                 
                 System.out.println("pqrs eliminado exitosamente");
             } catch (SQLException e) {
